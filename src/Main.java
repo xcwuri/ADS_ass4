@@ -1,28 +1,26 @@
 public class Main {
 
     public static void main(String[] args) {
-        WeightedGraph<String> weightedGraph = new WeightedGraph<>(true);
-        fillWithWeights(weightedGraph);
+        WeightedGraph<String> spaceNetwork = new WeightedGraph<>(true);
 
-        System.out.println("Dijkstra:");
-        Search<String> djk = new DijkstraSearch<>(weightedGraph, "Almaty");
-        outputPath(djk, "Kyzylorda");
+        spaceNetwork.addEdge("Earth", "Saturn", 100.0);
 
-        System.out.println("--------------------------------");
+        spaceNetwork.addEdge("Earth", "Mars", 10.0);
+        spaceNetwork.addEdge("Mars", "Jupiter", 10.0);
+        spaceNetwork.addEdge("Jupiter", "Saturn", 10.0);
 
-        System.out.println("BFS (On Weighted Graph):");
-        Search<String> bfs = new BreadthFirstSearch<>(weightedGraph, "Almaty");
-        outputPath(bfs, "Kyzylorda");
-    }
+        spaceNetwork.addEdge("Earth", "Venus", 60.0);
+        spaceNetwork.addEdge("Venus", "Saturn", 50.0);
 
-    public static void fillWithWeights(WeightedGraph<String> graph) {
-        graph.addEdge("Almaty", "Astana", 2.1);
-        graph.addEdge("Shymkent", "Atyrau", 7.8);
-        graph.addEdge("Atyrau", "Astana", 7.1);
-        graph.addEdge("Almaty", "Shymkent", 7.2);
-        graph.addEdge("Shymkent", "Astana", 3.9);
-        graph.addEdge("Astana", "Kostanay", 3.5);
-        graph.addEdge("Shymkent", "Kyzylorda", 5.4);
+        System.out.println("Dijkstra (Fastest Route by Time):");
+        Search<String> djk = new DijkstraSearch<>(spaceNetwork, "Earth");
+        outputPath(djk, "Saturn");
+
+        System.out.println();
+
+        System.out.println("BFS (Route with Fewest Stops):");
+        Search<String> bfs = new BreadthFirstSearch<>(spaceNetwork, "Earth");
+        outputPath(bfs, "Saturn");
     }
 
     public static void outputPath(Search<String> search, String key) {
